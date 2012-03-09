@@ -7,6 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings = Movie.new.get_all_ratings
     @movies = Movie.find(
       :all,
       :order => ["title", "release_date"].include?(params[:order]) ? params[:order] : nil
