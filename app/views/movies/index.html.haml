@@ -1,8 +1,23 @@
+:javascript
+  $(function() {
+    $("a#title_header").click(function() {
+      change_order("title")
+    });
+    $("a#release_date_header").click(function() {
+      change_order("release_date")
+    });
+  });
+  change_order = function(field) {
+    $("#order").val(field)
+    $("form").submit()
+  }
+
 = form_tag movies_path, :method => :get do
   Include:
   - @all_ratings.each do |rating|
     = rating
     = check_box_tag "ratings[#{rating}]", "ratings[#{rating}]", @ratings.include?(rating)
+  = hidden_field_tag 'order', @order
   = submit_tag 'Refresh', :id => "ratings_submit"
   
 %h1 All Movies
@@ -10,11 +25,9 @@
 %table#movies
   %thead
     %tr
-      %th{:class => @order == "title" ? "hilite" : ""}= link_to "Movie Title",
-        {:action => "index", :controller => "movies", :order => "title"}, :id => "title_header"
+      %th{:class => @order == "title" ? "hilite" : ""}= link_to "Movie Title", "#", :id => "title_header", :rel => "nofollow"
       %th Rating
-      %th{:class => @order == "release_date" ? "hilite" : ""}= link_to "Release Date", 
-        {:action => "index", :controller => "movies", :order => "release_date"}, :id => "release_date_header"
+      %th{:class => @order == "release_date" ? "hilite" : ""}= link_to "Release Date", "#", :id => "release_date_header", :rel => "nofollow"
       %th More Info
   %tbody
     - @movies.each do |movie|

@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.get_all_ratings
-    @ratings = (params[:commit] == "Refresh" && params[:ratings]) ? params[:ratings].keys : @all_ratings
+    @ratings = params[:ratings] ? params[:ratings].keys : @all_ratings
     @movies = Movie.find(
       :all,
       :conditions => ["rating IN (?)", @ratings],
