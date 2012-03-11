@@ -7,8 +7,13 @@ class MoviesController < ApplicationController
   end
 
   def index
+    logger.debug @ratings.inspect
     @all_ratings = Movie.get_all_ratings
-    @ratings = (params[:commit] == "Refresh" && params[:ratings]) ? params[:ratings].keys : @all_ratings
+    if (params[:commit] == "Refresh")
+      @ratings = params[:ratings] ? params[:ratings].keys : []
+    else
+      @ratings = params[:ratings] ? params[:ratings] : @all_ratings
+    end
     @movies = Movie.find(
       :all,
       :conditions => ["rating IN (?)", @ratings],

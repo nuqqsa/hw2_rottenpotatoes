@@ -11,10 +11,10 @@
   %thead
     %tr
       %th{:class => @order == "title" ? "hilite" : ""}= link_to "Movie Title",
-        {:action => "index", :controller => "movies", :order => "title"}, :id => "title_header"
+        {:action => "index", :controller => "movies", :order => "title", :ratings => @ratings}, :id => "title_header"
       %th Rating
       %th{:class => @order == "release_date" ? "hilite" : ""}= link_to "Release Date", 
-        {:action => "index", :controller => "movies", :order => "release_date"}, :id => "release_date_header"
+        {:action => "index", :controller => "movies", :order => "release_date", :ratings => @ratings}, :id => "release_date_header"
       %th More Info
   %tbody
     - @movies.each do |movie|
