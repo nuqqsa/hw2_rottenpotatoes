@@ -6,13 +6,20 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  def index    
-    @all_ratings = Movie.get_all_ratings        
+  def index
+    @all_ratings = Movie.get_all_ratings 
     if (params[:commit] == "Refresh")
       @ratings = params[:ratings] ? params[:ratings].keys : []
     else
+      if !params[:ratings] && session[:ratings]
+        params[:ratings] = session[:ratings]
+        redirect_to movies_path params
+      end      
       @ratings = params[:ratings] ? params[:ratings] : @all_ratings
     end
+    
+    session[:ratings] = @ratings
+    
     @movies = Movie.find(
       :all,
       :conditions => ["rating IN (?)", @ratings],
