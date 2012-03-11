@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index    
-    @all_ratings = Movie.get_all_ratings
+    @all_ratings = Movie.get_all_ratings        
     if (params[:commit] == "Refresh")
       @ratings = params[:ratings] ? params[:ratings].keys : []
     else
@@ -18,7 +18,7 @@ class MoviesController < ApplicationController
       :conditions => ["rating IN (?)", @ratings],
       :order => Movie.get_sortable_fields.include?(params[:order]) ? params[:order] : nil
     )
-    @order = params[:order]    
+    @order = params[:order]
   end
 
   def new
