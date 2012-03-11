@@ -6,8 +6,7 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  def index
-    logger.debug @ratings.inspect
+  def index    
     @all_ratings = Movie.get_all_ratings
     if (params[:commit] == "Refresh")
       @ratings = params[:ratings] ? params[:ratings].keys : []
