@@ -7,12 +7,14 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.new.get_all_ratings
+    @all_ratings = Movie.get_all_ratings
+    @ratings = (params[:commit] == "Refresh" && params[:ratings]) ? params[:ratings].keys : @all_ratings
     @movies = Movie.find(
       :all,
-      :order => ["title", "release_date"].include?(params[:order]) ? params[:order] : nil
+      :conditions => ["rating IN (?)", @ratings],
+      :order => Movie.get_sortable_fields.include?(params[:order]) ? params[:order] : nil
     )
-    @order = params[:order]
+    @order = params[:order]    
   end
 
   def new
